@@ -30,8 +30,12 @@ func main() {
 
 		ssd1306.ClearBuffer()
 
+		temp := thermistor.MustReadTemperature()
+
+		println("🔥 temp:", temp)
+
 		utils.CenterText(ssd1306, sm, 0, 0, w, 0, "Temperature", utils.Yellow)
-		utils.CenterText(ssd1306, lg, 0, 0, w, h, fmt.Sprintf("%3.1f F", thermistor.MustReadTemperature()), utils.Blue)
+		utils.CenterText(ssd1306, lg, 0, 0, w, h, fmt.Sprintf("%3.1f F", temp), utils.Blue)
 
 		ssd1306.Display()
 

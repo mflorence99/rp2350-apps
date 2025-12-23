@@ -2,6 +2,7 @@ package main
 
 import (
 	"machine"
+	"rp2350-apps/lib/displays"
 	"rp2350-apps/lib/utils"
 	"time"
 )
@@ -80,14 +81,14 @@ func main() {
 	utils.WaitForSerial("Bitmap is ready!")
 	utils.BlinkLEDWhileAlive(machine.GPIO25, time.Millisecond*333)
 	utils.BOOTSELOnButtonPress(machine.GPIO1)
-	display := utils.ConfigureSSD1306Display(machine.I2C1, machine.GPIO6, machine.GPIO7)
+	ssd1306 := displays.NewSSD1306(machine.I2C1, machine.GPIO6, machine.GPIO7)
 
-	err := display.SetBuffer(image)
+	err := ssd1306.SetBuffer(image)
 	if err != nil {
-		println(err)
+		panic(err)
 	}
 
-	display.Display()
+	ssd1306.Display()
 
 	for {
 		time.Sleep(time.Minute)
