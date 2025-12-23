@@ -1,4 +1,4 @@
-package utils
+package displays
 
 import (
 	"machine"
@@ -7,7 +7,7 @@ import (
 	"tinygo.org/x/drivers/ssd1306"
 )
 
-func ConfigureSSD1306Display(I2C *machine.I2C, SDA, SCL machine.Pin) *ssd1306.Device {
+func NewSSD1306(I2C *machine.I2C, SDA, SCL machine.Pin) *ssd1306.Device {
 	I2C.Configure(machine.I2CConfig{SDA: SDA, SCL: SCL, Frequency: 400 * machine.KHz})
 	// 🔥 who knows why?
 	time.Sleep(time.Second * 1)

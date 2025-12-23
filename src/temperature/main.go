@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"machine"
+	"rp2350-apps/lib/displays"
 	"rp2350-apps/lib/sensors"
 	"rp2350-apps/lib/utils"
 	"time"
@@ -19,19 +20,20 @@ func main() {
 	utils.WaitForSerial("Temperature is ready!")
 	utils.BlinkLEDWhileAlive(machine.GPIO25, time.Millisecond*333)
 	utils.BOOTSELOnButtonPress(machine.GPIO1)
-	display := utils.ConfigureSSD1306Display(machine.I2C1, machine.GPIO6, machine.GPIO7)
-	w, h := display.Size()
+
+	ssd1306 := displays.NewSSD1306(machine.I2C1, machine.GPIO6, machine.GPIO7)
+	w, h := ssd1306.Size()
 
 	thermistor := sensors.NewThermistor(machine.ADC0)
 
 	for {
 
-		display.ClearBuffer()
+		ssd1306.ClearBuffer()
 
-		utils.CenterText(display, sm, 0, 0, w, 0, "Temperature", utils.Yellow)
-		utils.CenterText(display, lg, 0, 0, w, h, fmt.Sprintf("%3.1f F", thermistor.MustReadTemperature()), utils.Blue)
+		utils.CenterText(ssd1306, sm, 0, 0, w, 0, "Temperature", utils.Yellow)
+		utils.CenterText(ssd1306, lg, 0, 0, w, h, fmt.Sprintf("%3.1f F", thermistor.MustReadTemperature()), utils.Blue)
 
-		display.Display()
+		ssd1306.Display()
 
 		time.Sleep(time.Millisecond * 1000)
 
