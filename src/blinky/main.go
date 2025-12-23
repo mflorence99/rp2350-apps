@@ -7,9 +7,7 @@ import (
 )
 
 func main() {
-	utils.WaitForSerial()
-
-	println("Blinky is ready!")
+	utils.WaitForSerial("Blinky is ready!")
 
 	led := machine.GPIO25
 	led.Configure(machine.PinConfig{Mode: machine.PinOutput})
