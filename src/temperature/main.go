@@ -26,18 +26,18 @@ func main() {
 
 	thermistor := sensors.NewThermistor(machine.ADC0)
 
-	for {
+	for ix := 0; ; ix++ {
 
 		ssd1306.ClearBuffer()
 
 		temp := thermistor.MustReadTemperature()
 
-		println("🔥 temp:", temp)
-
 		utils.CenterText(ssd1306, sm, 0, 0, w, 0, "Temperature", utils.Yellow)
 		utils.CenterText(ssd1306, lg, 0, 0, w, h, fmt.Sprintf("%3.1f F", temp), utils.Blue)
 
 		ssd1306.Display()
+
+		fmt.Printf("🔥 %2d:%02d\r\n", ix/60, ix%60)
 
 		time.Sleep(time.Millisecond * 1000)
 
